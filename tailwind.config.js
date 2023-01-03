@@ -6,7 +6,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'tailwind-blue': '#0F172A',
+        'reddit-black': '#030303',
+        'reddit-grey': '#151516',
       }
     },
   },
