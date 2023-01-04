@@ -7,29 +7,22 @@ interface PostProps {
   title: string;
   body: string;
   likes: number;
+  clickable?: boolean;
+  interacted?: number;
 }
-
-// function Post(props: PostProps) {
-//   return (
-//     <div className='pb-10'>
-//       <p>userId: {props.userId}</p>
-//       <p>title: {props.title}</p>
-//       <p>body: {props.body}</p>
-//     </div>
-//   )
-// }
 
 function Post(props: PostProps) {
 
   const [likes, setLikes] = useState<number>(0);
   const [interacted, setInteracted] = useState<number>(0);
-  const likeRef = useRef<HTMLParagraphElement>(null);
-  const dislikeRef = useRef<HTMLParagraphElement>(null);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     setLikes(props.likes);
+    if (props.interacted) {
+      setInteracted(props.interacted);
+    }
   }, [])
 
   function handleLikes(num: number) {
@@ -52,20 +45,27 @@ function Post(props: PostProps) {
   }
 
   function handleNavigate() {
-    navigate(`/posts/${props.postId}`)
+    if (props.clickable !== false) {
+      navigate(`/posts/${props.postId}`, {     //using state to transfer amount of likes to the PostPage component
+        state: {
+          postLikes: likes,
+          interacted: interacted
+        }
+      })
+    }
   }
 
   return (
-    <div className='border-white border-2 p-5 transform hover:custom-shadow cursor-pointer relative flex flex-col gap-5 bg-reddit-grey' onClick={handleNavigate}>
-      <div>
+    <div className='border-white border-2 p-5 transform hover:custom-shadow relative flex flex-col gap-5 bg-reddit-grey'>
+      <div className='cursor-pointer' onClick={handleNavigate}>
         <p className='text-white pb-5 font-bold'>{props.title}</p>
         <p className='text-white pb-'>{props.body}</p>
       </div>
       <div>
-        <div className='text-white flex gap-2 items-center'>
-          {interacted === 1 ? <p className='inline text-2xl hover:bg-gray-700 p-1 text-red-600' ref={likeRef}>↑</p> : <p className='inline text-2xl hover:bg-gray-700 p-1 text-white' onClick={() => handleLikes(1)} ref={likeRef}>↑</p>}
+        <div className='text-white gap-2 items-center cursor-pointer inline-flex'>
+          {interacted === 1 ? <p className='inline text-2xl hover:bg-gray-700 p-1 text-red-600'>↑</p> : <p className='inline text-2xl hover:bg-gray-700 p-1 text-white' onClick={() => handleLikes(1)}>↑</p>}
           <p className='inline text-white'>{likes}</p>
-          {interacted === -1 ? <p className='inline text-2xl hover:bg-gray-700 p-1 text-red-600' ref={likeRef}>↓</p> : <p className='inline text-2xl hover:bg-gray-700 p-1 text-white' onClick={() => handleLikes(-1)} ref={likeRef}>↓</p>}
+          {interacted === -1 ? <p className='inline text-2xl hover:bg-gray-700 p-1 text-red-600'>↓</p> : <p className='inline text-2xl hover:bg-gray-700 p-1 text-white' onClick={() => handleLikes(-1)}>↓</p>}
         </div>
       </div>
     </div>
