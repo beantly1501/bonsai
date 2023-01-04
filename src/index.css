@@ -4,6 +4,12 @@
 
 @layer components {
     .custom-shadow {
-        box-shadow: 0px 0px 10px 5px #ffffff;
+        box-shadow: 0px 0px 15px 10px #ffffff;
     }
+}
+
+html,
+body,
+#root {
+    height: 100%;
 }

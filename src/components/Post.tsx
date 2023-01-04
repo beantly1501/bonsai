@@ -51,9 +51,12 @@ function Post(props: PostProps) {
     }
   }
 
+  function handleNavigate() {
+    navigate(`/posts/${props.postId}`)
+  }
 
   return (
-    <Link to="/posts" className='border-white border-2 p-5 transform hover:custom-shadow cursor-pointer relative flex flex-col gap-5 bg-reddit-grey'>
+    <div className='border-white border-2 p-5 transform hover:custom-shadow cursor-pointer relative flex flex-col gap-5 bg-reddit-grey' onClick={handleNavigate}>
       <div>
         <p className='text-white pb-5 font-bold'>{props.title}</p>
         <p className='text-white pb-'>{props.body}</p>
@@ -65,7 +68,7 @@ function Post(props: PostProps) {
           {interacted === -1 ? <p className='inline text-2xl hover:bg-gray-700 p-1 text-red-600' ref={likeRef}>↓</p> : <p className='inline text-2xl hover:bg-gray-700 p-1 text-white' onClick={() => handleLikes(-1)} ref={likeRef}>↓</p>}
         </div>
       </div>
-    </Link>
+    </div>
   )
 }
 export default Post;

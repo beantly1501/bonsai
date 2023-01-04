@@ -19,7 +19,7 @@ function Home() {
   }, []);
 
   return (
-    <div className='w-100 h-100 flex flex-col gap-20 bg-reddit-black px-[10%] pt-10'>
+    <div className='flex flex-col gap-20 bg-reddit-black px-[10%] pt-10'>
       {posts.map((post) => {
         return (
           <Post key={post.id} postId={post.id} userId={post.userId} title={post.title} body={post.body} likes={0} />
