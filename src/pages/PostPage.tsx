@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useLocation, Link } from "react-router-dom";
-import Post from "./Post";
-import Comment from "./Comment";
+import Post from "../components/Post";
+import Comment from "../components/Comment";
 
 function PostPage() {
 
@@ -37,7 +37,7 @@ function PostPage() {
     fetch(`https://jsonplaceholder.typicode.com/comments`)
       .then(res => res.json())
       .then(data => setComments(data));
-  })
+  }, [])
 
   var length: number = 0;
 
@@ -52,10 +52,10 @@ function PostPage() {
   return (
     <div>
       <Link to="/" className="absolute text-white p-7 text-2xl">✖ Close</Link>
-      <div className='flex flex-col gap-20 bg-reddit-black px-[10%] p-10'>
+      <div className='flex flex-col gap-20 bg-reddit-black px-[10%] p-10 pt-24'>
         {postData ? <Post key={postData.id} postId={postData.id} userId={postData.userId} title={postData.title} body={postData.body} likes={location.state.postLikes} interacted={location.state.interacted} clickable={false} /> : null}
         <hr></hr>
-        <p className="text-white text-rig text-xl ml-36">{length} Comments</p>
+        <p className="text-white text-rig text-xl sm:ml-36">{length} Comments</p>
         {comments?.map((comment) => {
           if (comment.postId === postData?.id) {
             return (

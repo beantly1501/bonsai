@@ -43,7 +43,7 @@ function Comment(props: CommentProps) {
   }
 
   return (
-    <div className="border-white border-2 p-5 relative flex flex-col gap-5 bg-reddit-grey align-middle mx-36">
+    <div className="border-white border-2 p-5 relative flex flex-col gap-5 bg-reddit-grey align-middle mx-5 sm:mx-36">
       <div className="flex flex-col gap-5">
         <p className="text-white font-bold">{props.name}</p>
         <p className="text-white">{props.body}</p>
