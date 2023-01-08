@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Post from '../components/Post';
 
 function UserPage() {
@@ -47,18 +47,27 @@ function UserPage() {
   return (
     <div>
       {/* <p>id: {user?.id}, name: {user?.name}, username: {user?.username}</p> */}
-      {posts?.map((post) => {
-        if (id) {
-          if (post.userId === parseInt(id, 10)) {
+      <Link to="/" className="absolute text-white p-7 text-2xl">✖ Close</Link>
+      <div className='flex flex-col gap-14 sm:gap-20 bg-reddit-black px-[10%] p-10 pt-24'>
+        <div className='flex flex-col mx-auto items-center gap-2 sm:gap-4'>
+          <p className='text-white text-2xl sm:text-3xl'>{user?.username}</p>
+          <p className='text-white text-lg sm:text-xl'>{user?.name}</p>
+        </div>
+        <hr className='hidden sm:inline'></hr>
+        {posts?.map((post) => {
+          if (id) {
+            if (post.userId === parseInt(id, 10)) {
 
-            var amountOfLikes = generateLikes();
+              var amountOfLikes = generateLikes();
 
-            return (
-              <Post key={post.id} postId={post.id} userId={post.userId} title={post.title} body={post.body} likes={amountOfLikes} />
-            )
+              return (
+                <Post key={post.id} postId={post.id} userId={post.userId} title={post.title} body={post.body} likes={amountOfLikes} />
+              )
+            }
           }
-        }
-      })}
+        })}
+      </div>
+
     </div>
   )
 }
