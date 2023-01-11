@@ -6,9 +6,15 @@ interface PostProps {
   userId: number;
   title: string;
   body: string;
-  likes: number;
+  likes?: number;
   clickable?: boolean;
   interacted?: number;
+}
+
+interface postLikes {
+  postId: number;
+  likes: number;
+  interacted: number;
 }
 
 function Post(props: PostProps) {
@@ -20,36 +26,60 @@ function Post(props: PostProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setLikes(props.likes);
-    if (props.interacted) {
-      setInteracted(props.interacted);
-    }
-  }, [])
-
-  useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/users/${props.userId}`)
       .then(res => res.json())
       .then(data => setUsername(data.username));
   })
 
+  useEffect(() => {
+    let aux = localStorage.getItem("postLikes");
+    if (aux) {
+      let likes = JSON.parse(aux);
+      likes.forEach((like: postLikes) => {
+        if (props.postId == like.postId) {
+          setLikes(like.likes);
+          setInteracted(like.interacted);
+        }
+      })
+    }
+  }, [])
+
 
 
   function handleLikes(num: number) {
-    if (num === 1 && interacted === 0) {
-      setInteracted(1);
-      setLikes((prevLikes) => prevLikes + num);
-    }
-    else if (num === -1 && interacted === 0) {
-      setInteracted(-1);
-      setLikes((prevLikes) => prevLikes + num);
-    }
-    else if (num === 1 && interacted === -1) {
-      setInteracted(1);
-      setLikes((prevLikes) => prevLikes + (num * 2));
-    }
-    else if (num === -1 && interacted === 1) {
-      setInteracted(-1);
-      setLikes((prevLikes) => prevLikes + (num * 2));
+    let aux = localStorage.getItem("postLikes");
+    if (aux) {
+      let auxLikes: postLikes[] = JSON.parse(aux);
+      for (let i = 0; i < auxLikes.length; i++) {
+        if (auxLikes[i].postId == props.postId) {
+          if (num === 1 && interacted === 0) {
+            setInteracted(1);
+            auxLikes[i].interacted = 1;
+            setLikes((prevLikes) => prevLikes + num);
+            auxLikes[i].likes = likes + num;
+          }
+          else if (num === -1 && interacted === 0) {
+            setInteracted(-1);
+            auxLikes[i].interacted = -1;
+            setLikes((prevLikes) => prevLikes + num);
+            auxLikes[i].likes = likes + num;
+          }
+          else if (num === 1 && interacted === -1) {
+            setInteracted(1);
+            auxLikes[i].interacted = 1;
+            setLikes((prevLikes) => prevLikes + (num * 2));
+            auxLikes[i].likes = likes + (num * 2);
+          }
+          else if (num === -1 && interacted === 1) {
+            setInteracted(-1);
+            auxLikes[i].interacted = -1;
+            setLikes((prevLikes) => prevLikes + (num * 2));
+            auxLikes[i].likes = likes + (num * 2);
+          }
+          break;
+        }
+      }
+      localStorage.setItem("postLikes", JSON.stringify(auxLikes));
     }
   }
 

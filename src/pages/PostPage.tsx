@@ -22,6 +22,12 @@ function PostPage() {
     body: string;
   }
 
+  interface postLikes {
+    postId: number;
+    likes: number;
+    interacted: number;
+  }
+
   const [postData, setPostData] = useState<PostInterface>();
   const [comments, setComments] = useState<CommentInterface[]>();
 

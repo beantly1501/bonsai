@@ -48,21 +48,8 @@ function Home() {
   return (
     <div className='flex flex-col gap-20 bg-reddit-black px-[10%] pt-10'>
       {posts.map((post) => {
-        var aux = localStorage.getItem("postLikes");
-        let amountOfLikes = 0;
-        let interacted = 0;
-
-        if (aux) {
-          let postLikes = JSON.parse(aux);
-          postLikes.forEach((like: postLikes) => {
-            if (post.id == like.postId) {
-              amountOfLikes = like.likes;
-              interacted = like.interacted;
-            }
-          })
-        }
         return (
-          <Post key={post.id} postId={post.id} userId={post.userId} title={post.title} body={post.body} likes={amountOfLikes} interacted={interacted} />
+          <Post key={post.id} postId={post.id} userId={post.userId} title={post.title} body={post.body} />
         )
       })};
     </div>
