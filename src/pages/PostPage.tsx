@@ -39,9 +39,10 @@ function PostPage() {
       .then(data => setComments(data));
   }, [])
 
-  var length: number = 0;
 
-  if (comments !== undefined || comments !== null) {       //used to calculate the amount of comments on a post
+  //used to calculate the amount of comments on a post
+  var length: number = 0;
+  if (comments !== undefined || comments !== null) {
     comments?.forEach(comment => {
       if (comment.postId === postData?.id) {
         length++;

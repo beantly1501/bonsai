@@ -41,9 +41,6 @@ function UserPage() {
   }, []);
 
 
-  {/* <Post key={post.id} postId={post.id} userId={post.userId} title={post.title} body={post.body} likes={amountOfLikes} /> */ }
-
-
   return (
     <div>
       {/* <p>id: {user?.id}, name: {user?.name}, username: {user?.username}</p> */}

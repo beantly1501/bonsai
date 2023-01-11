@@ -31,6 +31,7 @@ function Post(props: PostProps) {
       .then(data => setUsername(data.username));
   })
 
+  //used to get post information from local storage
   useEffect(() => {
     let aux = localStorage.getItem("postLikes");
     if (aux) {
@@ -45,7 +46,7 @@ function Post(props: PostProps) {
   }, [])
 
 
-
+  //handles the liking/disliking, also updates the info to the localstorage
   function handleLikes(num: number) {
     let aux = localStorage.getItem("postLikes");
     if (aux) {
@@ -83,6 +84,7 @@ function Post(props: PostProps) {
     }
   }
 
+  //navigates to the corresponding PostPage when the user clicks on a post
   function handleNavigate() {
     if (props.clickable !== false) {
       navigate(`/posts/${props.postId}`, {     //using state to transfer amount of likes to the PostPage component
@@ -94,6 +96,7 @@ function Post(props: PostProps) {
     }
   }
 
+  //navigates to the corresponding UserPage when the user clickes on the user's icon
   function handleUser() {
     navigate(`/users/${props.userId}`);
   }

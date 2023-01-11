@@ -7,8 +7,6 @@ function Home() {
     return Math.floor(Math.random() * (101 + 100) - 100)
   }
 
-
-
   interface Post {
     userId: number;
     id: number;
@@ -46,6 +44,7 @@ function Home() {
       .then(data => setPosts(data));
   }, []);
 
+  //generates the local storage for the posts
   useEffect(() => {
     if (posts.length !== 0 && (localStorage.getItem("postLikes")?.length === 0 || localStorage.getItem("postLikes") === null)) {
       let postLikes: postLikes[] = [];
@@ -64,6 +63,7 @@ function Home() {
       .then(data => setComments(data));
   })
 
+  //generates the local storage for the comments
   useEffect(() => {
     if (comments.length !== 0 && (localStorage.getItem("commentLikes")?.length === 0 || localStorage.getItem("commentLikes") === null)) {
       let commentLikes: commentLikes[] = [];

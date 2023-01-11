@@ -17,10 +17,7 @@ interface commentLikes {
 
 function Comment(props: CommentProps) {
 
-  function generateLikes() {      //generates a random amount of likes, between -100 and 100, just because if not, all of them would be 0
-    return Math.floor(Math.random() * (101 + 100) - 100)
-  }
-
+  //used to get comment information from local storage
   useEffect(() => {
     let aux = localStorage.getItem("commentLikes");
     if (aux) {
@@ -37,6 +34,8 @@ function Comment(props: CommentProps) {
   const [likes, setLikes] = useState<number>(0);
   const [interacted, setInteracted] = useState<number>(0);
 
+
+  //handles the liking/disliking, also updates the info to the localstorage
   function handleLikes(num: number) {
     let aux = localStorage.getItem("commentLikes");
     if (aux) {
