@@ -14,11 +14,13 @@ function Home() {
     id: number;
     title: string;
     body: string;
+    interacted: number;
   }
 
   interface postLikes {
     postId: number;
     likes: number;
+    interacted: number;
   }
 
   const [posts, setPosts] = useState<Post[]>([]);
@@ -32,14 +34,12 @@ function Home() {
 
 
   useEffect(() => {
-    if (posts !== null && (localStorage.getItem("postLikes")?.length === 0 || localStorage.getItem("postLikes") === null)) {
+    if (posts.length !== 0 && (localStorage.getItem("postLikes")?.length === 0 || localStorage.getItem("postLikes") === null)) {
       let postLikes: postLikes[] = [];
       posts.forEach((post) => {
         var amountOfLikes = generateLikes();
-        let postLike: postLikes = { postId: post.id, likes: amountOfLikes };
-
+        let postLike: postLikes = { postId: post.id, likes: amountOfLikes, interacted: 0 };
         postLikes.push(postLike);
-
       })
       localStorage.setItem("postLikes", JSON.stringify(postLikes));
     }
@@ -48,9 +48,21 @@ function Home() {
   return (
     <div className='flex flex-col gap-20 bg-reddit-black px-[10%] pt-10'>
       {posts.map((post) => {
-        var amountOfLikes = generateLikes();
+        var aux = localStorage.getItem("postLikes");
+        let amountOfLikes = 0;
+        let interacted = 0;
+
+        if (aux) {
+          let postLikes = JSON.parse(aux);
+          postLikes.forEach((like: postLikes) => {
+            if (post.id == like.postId) {
+              amountOfLikes = like.likes;
+              interacted = like.interacted;
+            }
+          })
+        }
         return (
-          <Post key={post.id} postId={post.id} userId={post.userId} title={post.title} body={post.body} likes={amountOfLikes} />
+          <Post key={post.id} postId={post.id} userId={post.userId} title={post.title} body={post.body} likes={amountOfLikes} interacted={interacted} />
         )
       })};
     </div>
